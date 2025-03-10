@@ -89,6 +89,41 @@ class SinglyCircularLinkedList:
                 current.next = current.next.next
                 return
             current = current.next
+    def search(self, data):
+        if self.head is None:
+            return "List is empty"
+        current = self.head
+        while True:
+            if current.next == self.head:
+                return "Node not found"
+            if current.next.data == data:
+                return "Node found"
+            current = current.next
+    def length(self):
+        if self.head is None:
+            return 0
+        length = 0
+        current = self.head
+        while current.next is not self.head:
+            current = current.next
+            length += 1
+        return length+1
+    def reverse(self):
+        if self.head is None or self.head.next is self.head:
+            return
+        prev = None
+        current = self.head
+        next_node = None
+        while True:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current= next_node
+            if current == self.head:
+                break
+        self.head.next = prev
+        self.head = prev
+
 
 
 SCLL = SinglyCircularLinkedList()
@@ -107,5 +142,9 @@ SCLL.display()
 SCLL.delete_at_end()
 SCLL.display()
 SCLL.delete_node(7)
+SCLL.display()
+print(SCLL.search(4))
+print(SCLL.length())
+SCLL.reverse()
 SCLL.display()
 
