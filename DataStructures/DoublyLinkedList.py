@@ -65,7 +65,7 @@ class DoubleLinkedList:
         while current is not None:
             print(current.data, end = " <-> ")
             current = current.next
-        print("Null")
+        print("Tail")
     def print_reverse(self):
         current = self.head
         while current.next is not None:
@@ -113,6 +113,20 @@ class DoubleLinkedList:
         if current.prev is not None:
             current.prev.next = current.next
 
+    def reversal(self):
+        current = self.head
+        while current is not None:
+            # Swap the next and prev pointers
+            nextnode = current.next  # Save the next node
+            current.next = current.prev
+            current.prev = nextnode
+            # Move to the next node in the original list, which is now stored in nextnode
+            current = nextnode
+        # After the loop, current will be None and the last processed node is the new head
+        if self.head is not None:
+            # Move the head pointer to the end of the list, which is now at the last processed node
+            while self.head.prev is not None:
+                self.head = self.head.prev
 
 
 dll = DoubleLinkedList()
@@ -133,4 +147,5 @@ dll.delete_at_end()
 dll.print_list()
 dll.delete_at_pos(2)
 dll.print_list()
-dll.print_reverse()
+dll.reversal()
+dll.print_list()
