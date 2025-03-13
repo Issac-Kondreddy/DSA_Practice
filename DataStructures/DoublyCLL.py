@@ -75,6 +75,68 @@ class DoublyCLL:
             if current == self.head:
                 break
         return count
+    def delete_at_beginning(self):
+        if self.head is None:
+            print("list is empty")
+            return
+        elif self.head.next == self.head:
+            print(f"Head Node Deleted {self.head.data} and list is empty")
+            self.head = None
+            return
+        else:
+            current = self.head
+            self.head.prev.next = self.head.next
+            self.head.next.prev = self.head.prev
+            self.head = self.head.next
+            print(f"Node Deleted {current.data}")
+    def delete_at_end(self):
+        if self.head is None:
+            print("list is empty")
+            return
+        elif self.head.next == self.head:
+            print(f"Head Node Deleted {self.head.data} and list is empty")
+            self.head = None
+            return
+        else:
+            current = self.head
+            while True:
+                current = current.next
+                if current.next == self.head:
+                    break
+            self.head.prev = current.prev
+            current.prev.next = self.head
+            print(f"Node Deleted {current.data}")
+    def delete_at_pos(self, pos):
+        if pos < 0:
+            print("pos cannot be negative")
+            return
+        if pos==0:
+            self.delete_at_beginning()
+        if pos==self.length():
+            self.delete_at_end()
+        k = 0
+        current = self.head
+        while k < pos:
+            k = k + 1
+            current = current.next
+        current.prev.next = current.next
+        current.next.prev = current.prev
+        print(f"Node Deleted {current.data}")
+    def search(self, data):
+        if self.head is None:
+            print("list is empty")
+            return
+        else:
+            current = self.head
+            while True:
+                current = current.next
+                if current.data == data:
+                    print(f"Node Found {data}")
+                    return True
+                if current.next == self.head:
+                    print(f"Node not Found {data}")
+                    return False
+
 
 DCLL = DoublyCLL()
 DCLL.insert_at_beginning(1)
@@ -89,4 +151,11 @@ DCLL.display()
 DCLL.insert_at_pos(6,2)
 DCLL.display()
 print(DCLL.length())
-
+DCLL.delete_at_beginning()
+DCLL.display()
+DCLL.delete_at_end()
+DCLL.display()
+DCLL.delete_at_pos(2)
+DCLL.display()
+DCLL.search(3)
+DCLL.search(4)
