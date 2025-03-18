@@ -1,26 +1,59 @@
 class HashTable:
     def __init__(self, size=10):
         self.size = size
-        self.array = [[] for _ in range(self.size)]
+        self.buckets = [[] for _ in range(self.size)]
 
-    def hash_function(self, value):
-        return sum(ord(char) for char in value) % self.size
+    def hash_function(self, key):
+        return sum(ord(char) for char in key) % self.size
 
-    def add(self, value):
-        index = self.hash_function(value)
-        bucket = self.array[index]
-        if value not in bucket:
-            bucket.append(value)
+    def set(self, key, value):
+        index = self.hash_function(key)
+        bucket = self.buckets[index]
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                bucket[i] = (key, value)  # Update existing key
+                return
+        bucket.append((key, value))  # Add new key-value pair
 
-    def contains(self, value):
-        index = self.hash_function(value)
-        bucket = self.array[index]
-        return value in bucket
+    def get(self, key):
+        index = self.hash_function(key)
+        bucket = self.buckets[index]
+        for k, v in bucket:
+            if k == key:
+                return v
+        return None  # Key not found
 
-# Example usage
+    def remove(self, key):
+        index = self.hash_function(key)
+        bucket = self.buckets[index]
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                del bucket[i]
+                return True  # Key removed
+        return False  # Key not found
+
+
+
+# Instantiate the HashTable
 ht = HashTable()
-ht.add("Issac")
-ht.add("Pranay")
-ht.add("bharadwaj")
-print(ht.contains("Pranay"))
-print(ht.contains("someone else"))
+
+# Add some key-value pairs
+ht.set("name", "Issac")
+ht.set("location", "Central Park")
+ht.set("language", "Python")
+
+# Retrieve a value
+print(ht.get("name"))        # Should print 'Issac'
+print(ht.get("location"))    # Should print 'Central Park'
+
+# Attempt to retrieve a non-existent key
+print(ht.get("age"))         # Should print 'None'
+
+# Remove a key-value pair
+print(ht.remove("language"))  # Should print 'True' indicating successful removal
+
+# Attempt to remove a non-existent key
+print(ht.remove("birthday"))  # Should print 'False'
+
+# Attempt to retrieve a removed key
+print(ht.get("language"))    # Should print 'None' as it's been removed
