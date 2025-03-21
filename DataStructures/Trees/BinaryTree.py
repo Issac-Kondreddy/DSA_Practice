@@ -71,6 +71,55 @@ class BinaryTree:
                 queue.append(current.right)
         return False
 
+    #Deletion
+    def delete(self, value):
+        if self.root is None:
+            return "Tree is Empty"
+
+        #first find the value to be deleted
+        queue = [self.root]
+        target_node = None
+        while queue:
+            current = queue.pop(0)
+            if current.data ==value:
+                target_node = current
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+        if not target_node:
+            return "Node not Found"
+
+        #find the deepest Node
+        deepestNode = None
+        queue = [self.root]
+        while queue:
+            current = queue.pop(0)
+            deepestNode = current
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+
+        #swap the deepestnode value to targetnode
+        target_node.data, deepestNode.data = deepestNode.data, target_node.data
+
+        #remove the deepestNode
+        queue = [self.root]
+        while queue:
+            current = queue.pop(0)
+            if current.left == deepestNode:
+                current.left = None
+                return f"Node {value} deleted"
+            if current.right == deepestNode:
+                current.right = None
+                return f"Node {value} deleted"
+
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+
 
 
 bt = BinaryTree()
@@ -88,3 +137,5 @@ print("Post Order Traversal : ")
 bt.postorder(bt.root)
 print(bt.dfssearch(bt.root, 3))
 print(bt.bfssearch(bt.root, 3))
+bt.delete(3)
+bt.postorder(bt.root)
