@@ -47,6 +47,31 @@ class BinaryTree:
             print(root.data, end=" ")
 
 
+    #Search using DFS
+    def dfssearch(self, root, value):
+        if root is None:
+            return False
+        if root.data == value:
+            return True
+        left_res = self.dfssearch(root.left, value)
+        right_res = self.dfssearch(root.right, value)
+        return left_res or right_res
+
+    def bfssearch(self, root, value):
+        if root is None:
+            return False
+        queue = [root]
+        while queue:
+            current = queue.pop(0)
+            if current.data == value:
+                return True
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+        return False
+
+
 
 bt = BinaryTree()
 print(bt.insert(1))
@@ -61,3 +86,5 @@ bt.preorder(bt.root)
 print()
 print("Post Order Traversal : ")
 bt.postorder(bt.root)
+print(bt.dfssearch(bt.root, 3))
+print(bt.bfssearch(bt.root, 3))
