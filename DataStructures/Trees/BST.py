@@ -55,69 +55,69 @@ class BinarySearchTree:
             print(f"Node {value} not found")
 
     def delete(self, value):
-        """Case 1  - if leaf Node"""
         if self.root is None:
             return "Tree is Empty"
-        if self.root.data == value:
-            if self.root.left is None and self.root.right is None:
-                self.root = None
-                return f"Root Node {value} deleted"
+
         parent = None
         current = self.root
         while current:
-            if current.data > value:
+            if value < current.data:
                 parent = current
                 current = current.left
-            elif current.data < value:
+            elif value > current.data:
                 parent = current
                 current = current.right
             else:
-                if current.left is None and current.right is None:
+                # Case 1: No child (leaf node)
+                if not current.left and not current.right:
                     if parent:
                         if parent.left == current:
                             parent.left = None
-                            return f"Node {value} deleted"
                         else:
                             parent.right = None
-                            return f"Node {value} deleted"
-                break
-        """Case 2 - Node with One Child"""
-        parent = None
-        current = self.root
-        while current:
-            if current.data > value:
-                parent = current
-                current = current.left
-            elif current.data < value:
-                parent = current
-                current = current.right
-            else:
-                if current.right is None and current.left:
+                    else:
+                        self.root = None
+                    return f"Leaf Node {value} deleted"
+
+                # Case 2: One child
+                elif current.left and not current.right:
                     if parent:
-                        if parent.right == current:
-                            parent.right = current.left
-                            print(f"Node {value} deleted")
-                            break
-                        else:
+                        if parent.left == current:
                             parent.left = current.left
-                            print(f"Node {value} deleted")
-                            break
-                elif current.left is None and current.right:
-                    if parent:
-                        if parent.right == current:
-                            parent.right = current.right
-                            print(f"Node {value} deleted")
-                            break
                         else:
+                            parent.right = current.left
+                    else:
+                        self.root = current.left
+                    return f"Node {value} with one child deleted"
+                elif current.right and not current.left:
+                    if parent:
+                        if parent.left == current:
                             parent.left = current.right
-                            print(f"Node {value} deleted")
-                            break
-        """Case 3 - Node with 2 children"""
+                        else:
+                            parent.right = current.right
+                    else:
+                        self.root = current.right
+                    return f"Node {value} with one child deleted"
 
+                # Case 3: Two children
+                elif current.left and current.right:
+                    successor_parent = current
+                    successor = current.right
+                    while successor.left:
+                        successor_parent = successor
+                        successor = successor.left
+                    # Replace data
+                    current.data = successor.data
+                    # Remove the successor
+                    if successor_parent.left == successor:
+                        successor_parent.left = successor.right
+                    else:
+                        successor_parent.right = successor.right
+                    return f"Node {value} deleted and replaced with successor {successor.data}"
+                break
+        return "Node Not Found"
 
-
-
-
+    # Testing the tree and methods
 BST = BinarySearchTree()
 print(BST.insert(20))
 print(BST.insert(10))
@@ -125,7 +125,8 @@ print(BST.insert(25))
 print(BST.insert(12))
 print(BST.insert(18))
 BST.inorder(BST.root)
-print()
+print("\n")
 BST.search(12)
-BST.delete(12)
+print(BST.delete(12))
+BST.inorder(BST.root)
 BST.inorder(BST.root)
