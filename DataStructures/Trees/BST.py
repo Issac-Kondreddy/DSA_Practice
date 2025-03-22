@@ -81,6 +81,41 @@ class BinarySearchTree:
                             parent.right = None
                             return f"Node {value} deleted"
                 break
+        """Case 2 - Node with One Child"""
+        parent = None
+        current = self.root
+        while current:
+            if current.data > value:
+                parent = current
+                current = current.left
+            elif current.data < value:
+                parent = current
+                current = current.right
+            else:
+                if current.right is None and current.left:
+                    if parent:
+                        if parent.right == current:
+                            parent.right = current.left
+                            print(f"Node {value} deleted")
+                            break
+                        else:
+                            parent.left = current.left
+                            print(f"Node {value} deleted")
+                            break
+                elif current.left is None and current.right:
+                    if parent:
+                        if parent.right == current:
+                            parent.right = current.right
+                            print(f"Node {value} deleted")
+                            break
+                        else:
+                            parent.left = current.right
+                            print(f"Node {value} deleted")
+                            break
+        """Case 3 - Node with 2 children"""
+
+
+
 
 
 BST = BinarySearchTree()
@@ -92,5 +127,5 @@ print(BST.insert(18))
 BST.inorder(BST.root)
 print()
 BST.search(12)
-BST.delete(18)
+BST.delete(12)
 BST.inorder(BST.root)
