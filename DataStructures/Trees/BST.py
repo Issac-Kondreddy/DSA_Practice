@@ -54,6 +54,35 @@ class BinarySearchTree:
                     return
             print(f"Node {value} not found")
 
+    def delete(self, value):
+        """Case 1  - if leaf Node"""
+        if self.root is None:
+            return "Tree is Empty"
+        if self.root.data == value:
+            if self.root.left is None and self.root.right is None:
+                self.root = None
+                return f"Root Node {value} deleted"
+        parent = None
+        current = self.root
+        while current:
+            if current.data > value:
+                parent = current
+                current = current.left
+            elif current.data < value:
+                parent = current
+                current = current.right
+            else:
+                if current.left is None and current.right is None:
+                    if parent:
+                        if parent.left == current:
+                            parent.left = None
+                            return f"Node {value} deleted"
+                        else:
+                            parent.right = None
+                            return f"Node {value} deleted"
+                break
+
+
 BST = BinarySearchTree()
 print(BST.insert(20))
 print(BST.insert(10))
@@ -63,3 +92,5 @@ print(BST.insert(18))
 BST.inorder(BST.root)
 print()
 BST.search(12)
+BST.delete(18)
+BST.inorder(BST.root)
