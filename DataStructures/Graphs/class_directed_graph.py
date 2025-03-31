@@ -9,7 +9,7 @@ class Graph:
             self.vertices[idx]=vertex
             print(f"{vertex} added at {idx}")
 
-    def add_edge(self, vertex1, vertex2):
+    def add_edge(self, vertex1, vertex2, weight):
         if vertex1 in self.vertices and vertex2 in self.vertices:
             idx1, idx2 = 0,0
             for i in range(len(self.vertices)):
@@ -17,9 +17,8 @@ class Graph:
                     idx1 = i
                 if self.vertices[i] == vertex2:
                     idx2 = i
-            self.matrix[idx1][idx2] = 1
-            self.matrix[idx2][idx1] = 1
-            print(f"{vertex1} and {vertex2} are connected")
+            self.matrix[idx1][idx2] = weight
+            print(f"{vertex1} and {vertex2} are connected with weight {weight}")
     def print_graph(self):
         print("Adjancency Matrix: ")
         for row in self.matrix:
@@ -33,10 +32,10 @@ g.add_vertex(0,'A')
 g.add_vertex(1,'B')
 g.add_vertex(2,'C')
 g.add_vertex(3,'D')
-g.add_edge('A','B')
-g.add_edge('A','C')
-g.add_edge('B','D')
-g.add_edge('B','C')
+g.add_edge('A','B',3)
+g.add_edge('A','C',2)
+g.add_edge('D','A',4)
+g.add_edge('C','B',1)
 g.print_graph()
 
 
