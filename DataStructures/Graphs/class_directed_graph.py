@@ -26,6 +26,24 @@ class Graph:
         print("Vertex data: ")
         for idx, vertex in enumerate(self.vertices):
             print(f"index {idx}: Vertex : {vertex}")
+    def dfs(self, vertex):
+        visited = set()
+        if vertex in self.vertices:
+            start_idx = self.vertices.index(vertex)
+            print(f"DFS starting from : {start_idx} - {vertex}")
+            self.dfs_util(start_idx, visited)
+            print()
+        else:
+            print(f"Vertex {vertex} not found in graph")
+    def dfs_util(self, crt_idx, visited):
+        crt_vtx = self.vertices[crt_idx]
+        print(crt_vtx, end = " ")
+        visited.add(crt_vtx)
+        for neighbor_idx in range(self.size):
+            if self.matrix[crt_idx][neighbor_idx] !=0 and self.vertices[neighbor_idx] not in visited:
+                self.dfs_util(neighbor_idx, visited)
+
+
 
 g = Graph(4)
 g.add_vertex(0,'A')
@@ -38,4 +56,24 @@ g.add_edge('D','A',4)
 g.add_edge('C','B',1)
 g.print_graph()
 
+
+print("New Graph")
+g = Graph(7)
+g.add_vertex(0,'A')
+g.add_vertex(1,'B')
+g.add_vertex(2,'C')
+g.add_vertex(3,'D')
+g.add_vertex(4,'E')
+g.add_vertex(5,'F')
+g.add_vertex(6,'G')
+
+g.add_edge('A', 'B', 1)
+g.add_edge('A', 'C', 1)
+g.add_edge('B', 'D', 1)
+g.add_edge('C', 'E', 1)
+g.add_edge('C', 'F', 1)
+g.add_edge('F', 'G', 1)
+
+
+g.dfs('A')
 
