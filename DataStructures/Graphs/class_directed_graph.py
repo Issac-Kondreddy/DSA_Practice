@@ -42,6 +42,25 @@ class Graph:
         for neighbor_idx in range(self.size):
             if self.matrix[crt_idx][neighbor_idx] !=0 and self.vertices[neighbor_idx] not in visited:
                 self.dfs_util(neighbor_idx, visited)
+    def bfs(self, vertex):
+        visited = set()
+        queue = []
+        if vertex in self.vertices:
+            vertex_idx = self.vertices.index(vertex)
+            visited.add(vertex_idx)
+            queue.append(vertex_idx)
+            print(f"BFS starting from {vertex} - {vertex_idx}")
+            while queue:
+                current_idx = queue.pop(0)
+                print(self.vertices[current_idx], end = "  ")
+                for neighbor_idx in range(self.size):
+                    if self.matrix[current_idx][neighbor_idx]!=0 and neighbor_idx not in visited:
+                        queue.append(neighbor_idx)
+                        visited.add(neighbor_idx)
+            print()
+        else:
+            print(f"{vertex} not found in graph")
+
 
 
 
@@ -76,4 +95,4 @@ g.add_edge('F', 'G', 1)
 
 
 g.dfs('A')
-
+g.bfs('C')
